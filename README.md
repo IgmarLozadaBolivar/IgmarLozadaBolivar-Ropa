@@ -1,6 +1,6 @@
 <!-- Encabezado -->
-<img src="https://ph-test-11.slatic.net/shop/2cbaa6241a94361c1969ff782ba2a35b.jpeg" alt="En Espera" width="auto" height="auto">
-<h1 align="center"><img width="32" height="32" src="https://img.icons8.com/3d-fluency/38/jumper.png" alt="En espera"/> <b>Safe Clothing</b></h1>
+<img align="center" src="https://ph-test-11.slatic.net/shop/2cbaa6241a94361c1969ff782ba2a35b.jpeg" alt="Safe Clothing" width="auto" height="auto">
+<h1 align="center"><img width="32" height="32" src="https://img.icons8.com/3d-fluency/38/jumper.png" alt="Safe Clothing"/> <b>Safe Clothing</b></h1>
 <br>
 
 <!-- Descripcion -->
