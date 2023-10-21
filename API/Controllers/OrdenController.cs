@@ -1,4 +1,5 @@
 using API.Dtos;
+using API.Helpers.Errors;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -46,6 +47,17 @@ public class OrdenController : BaseApiController
     {
         var enProceso = await unitOfWork.Ordenes.OrdenesEnProceso();
         return mapper.Map<List<OrdenDto>>(enProceso);
+    }
+
+    [HttpGet("Pagination")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<OrdenDto>>> GetPagination([FromQuery] Params dataParams)
+    {
+        var datos = await unitOfWork.Ordenes.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var listData = mapper.Map<List<OrdenDto>>(datos.registros);
+        return new Pager<OrdenDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
     }
 
     [HttpPost]

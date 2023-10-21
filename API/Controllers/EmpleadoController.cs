@@ -1,4 +1,5 @@
 using API.Dtos;
+using API.Helpers.Errors;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -47,6 +48,17 @@ public class EmpleadoController : BaseApiController
         var entidad = await unitOfWork.Empleados.Cargos();
         var dto = mapper.Map<IEnumerable<object>>(entidad);
         return Ok(dto);
+    }
+
+    [HttpGet("Pagination")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<EmpleadoDto>>> GetPagination([FromQuery] Params dataParams)
+    {
+        var datos = await unitOfWork.Empleados.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var listData = mapper.Map<List<EmpleadoDto>>(datos.registros);
+        return new Pager<EmpleadoDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
     }
 
     [HttpPost]

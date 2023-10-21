@@ -1,4 +1,5 @@
 using API.Dtos;
+using API.Helpers.Errors;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -36,6 +37,17 @@ public class PaisController : BaseApiController
             return NotFound();
         }
         return this.mapper.Map<PaisDto>(data);
+    }
+
+    [HttpGet("Pagination")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<PaisDto>>> GetPagination([FromQuery] Params dataParams)
+    {
+        var datos = await unitOfWork.Paises.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var listData = mapper.Map<List<PaisDto>>(datos.registros);
+        return new Pager<PaisDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
     }
 
     [HttpPost]

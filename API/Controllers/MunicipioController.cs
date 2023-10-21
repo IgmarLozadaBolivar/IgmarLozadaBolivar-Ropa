@@ -1,4 +1,5 @@
 using API.Dtos;
+using API.Helpers.Errors;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
@@ -36,6 +37,17 @@ public class MunicipioController : BaseApiController
             return NotFound();
         }
         return this.mapper.Map<MunicipioDto>(data);
+    }
+
+    [HttpGet("Pagination")]
+    [MapToApiVersion("1.1")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Pager<MunicipioDto>>> GetPagination([FromQuery] Params dataParams)
+    {
+        var datos = await unitOfWork.Municipios.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var listData = mapper.Map<List<MunicipioDto>>(datos.registros);
+        return new Pager<MunicipioDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
     }
 
     [HttpPost]

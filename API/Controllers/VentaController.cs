@@ -1,17 +1,24 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
 using API.Dtos;
 using API.Helpers.Errors;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+
 namespace API.Controllers;
 
-public class DepartamentoController : BaseApiController
+public class VentaController : BaseApiController
 {
     private readonly IUnitOfWork unitOfWork;
-    private readonly IMapper mapper;
-
-    public DepartamentoController(IUnitOfWork unitOfWork, IMapper mapper)
+    private readonly  IMapper mapper;
+    
+    public VentaController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
@@ -20,51 +27,51 @@ public class DepartamentoController : BaseApiController
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<DepartamentoDto>>> Get()
+    public async Task<ActionResult<IEnumerable<VentaDto>>> Get()
     {
-        var datos = await unitOfWork.Departamentos.GetAllAsync();
-        return mapper.Map<List<DepartamentoDto>>(datos);
+        var datos = await unitOfWork.Ventas.GetAllAsync();
+        return mapper.Map<List<VentaDto>>(datos);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<DepartamentoDto>> Get(int id)
+    public async Task<ActionResult<VentaDto>> Get(int id)
     {
-        var data = await unitOfWork.Departamentos.GetByIdAsync(id);
+        var data = await unitOfWork.Ventas.GetByIdAsync(id);
         if (data == null)
         {
             return NotFound();
         }
-        return this.mapper.Map<DepartamentoDto>(data);
+        return this.mapper.Map<VentaDto>(data);
     }
 
     [HttpGet("Pagination")]
     [MapToApiVersion("1.1")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Pager<DepartamentoDto>>> GetPagination([FromQuery] Params dataParams)
+    public async Task<ActionResult<Pager<VentaDto>>> GetPagination([FromQuery] Params dataParams)
     {
-        var datos = await unitOfWork.Departamentos.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
-        var listData = mapper.Map<List<DepartamentoDto>>(datos.registros);
-        return new Pager<DepartamentoDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var datos = await unitOfWork.Ventas.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var listData = mapper.Map<List<VentaDto>>(datos.registros);
+        return new Pager<VentaDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-    public async Task<ActionResult<DepartamentoDto>> Post(DepartamentoDto departamentoDto)
+    public async Task<ActionResult<VentaDto>> Post(VentaDto ventaDto)
     {
-        var data = this.mapper.Map<Departamento>(departamentoDto);
-        this.unitOfWork.Departamentos.Add(data);
+        var data = this.mapper.Map<Venta>(ventaDto);
+        this.unitOfWork.Ventas.Add(data);
         await unitOfWork.SaveAsync();
         if (data == null)
         {
             return BadRequest();
         }
-        departamentoDto.Id = data.Id;
-        return CreatedAtAction(nameof(Post), new { id = departamentoDto.Id }, departamentoDto);
+        ventaDto.Id = data.Id;
+        return CreatedAtAction(nameof(Post), new { id = ventaDto.Id }, ventaDto);
     }
 
     [HttpPut("{id}")]
@@ -72,16 +79,16 @@ public class DepartamentoController : BaseApiController
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-    public async Task<ActionResult<DepartamentoDto>> Put(int id, [FromBody] DepartamentoDto departamentoDto)
+    public async Task<ActionResult<VentaDto>> Put(int id, [FromBody] VentaDto ventaDto)
     {
-        if (departamentoDto == null)
+        if (ventaDto == null)
         {
             return NotFound();
         }
-        var data = this.mapper.Map<Departamento>(departamentoDto);
-        unitOfWork.Departamentos.Update(data);
+        var data = this.mapper.Map<Venta>(ventaDto);
+        unitOfWork.Ventas.Update(data);
         await unitOfWork.SaveAsync();
-        return departamentoDto;
+        return ventaDto;
     }
 
     [HttpDelete("{id}")]
@@ -89,12 +96,12 @@ public class DepartamentoController : BaseApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var data = await unitOfWork.Departamentos.GetByIdAsync(id);
+        var data = await unitOfWork.Ventas.GetByIdAsync(id);
         if (data == null)
         {
             return NotFound();
         }
-        unitOfWork.Departamentos.Remove(data);
+        unitOfWork.Ventas.Remove(data);
         await unitOfWork.SaveAsync();
         return NoContent();
     }
