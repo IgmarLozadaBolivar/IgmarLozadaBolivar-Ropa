@@ -31,7 +31,8 @@ public class ClienteConfiguration : IEntityTypeConfiguration<Cliente>
         builder.Property(f => f.FechaRegistro)
             .IsRequired()
             .HasColumnName("FechaRegistro")
-            .HasComment("Fecha de registro del cliente");
+            .HasComment("Fecha de registro del cliente")
+            .HasColumnType("datetime");
 
         builder.HasOne(p => p.TipoPersona)
             .WithMany(p => p.Clientes)

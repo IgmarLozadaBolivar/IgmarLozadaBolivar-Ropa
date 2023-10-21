@@ -38,7 +38,8 @@ public class EmpresaConfiguration : IEntityTypeConfiguration<Empresa>
         builder.Property(f => f.FechaCreacion)
             .IsRequired()
             .HasColumnName("FechaCreacion")
-            .HasComment("Fecha de creacion de la empresa");
+            .HasComment("Fecha de creacion de la empresa")
+            .HasColumnType("datetime");
 
         builder.HasOne(p => p.Municipio)
             .WithMany(p => p.Empresas)

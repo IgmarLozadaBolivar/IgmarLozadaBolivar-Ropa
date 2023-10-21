@@ -17,7 +17,8 @@ public class OrdenConfiguration : IEntityTypeConfiguration<Orden>
         builder.Property(f => f.Fecha)
             .IsRequired()
             .HasColumnName("Fecha")
-            .HasComment("Fecha de la orden");
+            .HasComment("Fecha de la orden")
+            .HasColumnType("date");
 
         builder.HasOne(p => p.Empleado)
             .WithMany(p => p.Ordens)

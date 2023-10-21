@@ -18,9 +18,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
             .IsRequired();
 
         builder.Property(p => p.Email)
+            .IsRequired()
             .HasColumnName("Email")
             .HasComment("Correo del usuario")
-            .IsRequired();
+            .HasColumnType("varchar")
+            .HasMaxLength(255);
 
         builder.Property(p => p.Password)
             .HasMaxLength(255)

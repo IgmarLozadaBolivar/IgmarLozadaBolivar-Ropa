@@ -33,7 +33,8 @@ public class EmpleadoConfiguration : IEntityTypeConfiguration<Empleado>
         builder.Property(f => f.FechaIngreso)
             .IsRequired()
             .HasColumnName("FechaIngreso")
-            .HasComment("Fecha de ingreso del empleado");
+            .HasComment("Fecha de ingreso del empleado")
+            .HasColumnType("datetime");
 
         builder.HasOne(p => p.Cargo)
             .WithMany(p => p.Empleados)

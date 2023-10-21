@@ -17,7 +17,8 @@ public class VentaConfiguration : IEntityTypeConfiguration<Venta>
         builder.Property(f => f.Fecha)
             .IsRequired()
             .HasColumnName("Fecha")
-            .HasComment("Fecha de la venta");
+            .HasComment("Fecha de la venta")
+            .HasColumnType("date");
 
         builder.HasOne(p => p.Empleado)
             .WithMany(p => p.Ventas)
