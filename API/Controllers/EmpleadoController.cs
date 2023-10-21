@@ -1,92 +1,86 @@
 using API.Dtos;
-using API.Helpers.Errors;
 using AutoMapper;
 using Domain.Entities;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
-[ApiVersion("1.0")]
-[ApiVersion("1.1")]
-[Authorize]
-
-public class RolController : BaseApiController
+public class EmpleadoController : BaseApiController
 {
     private readonly IUnitOfWork unitOfWork;
     private readonly IMapper mapper;
 
-    public RolController(IUnitOfWork unitOfWork, IMapper mapper)
+    public EmpleadoController(IUnitOfWork unitOfWork, IMapper mapper)
     {
         this.unitOfWork = unitOfWork;
         this.mapper = mapper;
     }
 
     [HttpGet]
-    [MapToApiVersion("1.0")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<IEnumerable<RolDto>>> Get()
+    public async Task<ActionResult<IEnumerable<EmpleadoDto>>> Get()
     {
-        var datos = await unitOfWork.Roles.GetAllAsync();
-        return mapper.Map<List<RolDto>>(datos);
+        var datos = await unitOfWork.Empleados.GetAllAsync();
+        return mapper.Map<List<EmpleadoDto>>(datos);
     }
 
     [HttpGet("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<RolDto>> Get(int id)
+    public async Task<ActionResult<EmpleadoDto>> Get(int id)
     {
-        var data = await unitOfWork.Roles.GetByIdAsync(id);
+        var data = await unitOfWork.Empleados.GetByIdAsync(id);
         if (data == null)
         {
             return NotFound();
         }
-        return mapper.Map<RolDto>(data);
+        return this.mapper.Map<EmpleadoDto>(data);
     }
 
-    [HttpGet("Pagination")]
-    [MapToApiVersion("1.1")]
+    [HttpGet("Cargos")]
+    //[Authorize(Roles = "Administrador, Empleado")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Pager<RolDto>>> GetPagination([FromQuery] Params dataParams)
+    public async Task<ActionResult<object>> Cargos()
     {
-        var datos = await unitOfWork.Roles.GetAllAsync(dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
-        var listData = mapper.Map<List<RolDto>>(datos.registros);
-        return new Pager<RolDto>(listData, datos.totalRegistros, dataParams.PageIndex, dataParams.PageSize, dataParams.Search);
+        var entidad = await unitOfWork.Empleados.Cargos();
+        var dto = mapper.Map<IEnumerable<object>>(entidad);
+        return Ok(dto);
     }
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Rol>> Post(RolDto rolDto)
+
+    public async Task<ActionResult<EmpleadoDto>> Post(EmpleadoDto empleadoDto)
     {
-        var data = mapper.Map<Rol>(rolDto);
-        unitOfWork.Roles.Add(data);
+        var data = this.mapper.Map<Empleado>(empleadoDto);
+        this.unitOfWork.Empleados.Add(data);
         await unitOfWork.SaveAsync();
         if (data == null)
         {
             return BadRequest();
         }
-        rolDto.Id = data.Id;
-        return CreatedAtAction(nameof(Post), new { id = rolDto.Id }, rolDto);
+        empleadoDto.Id = data.Id;
+        return CreatedAtAction(nameof(Post), new { id = empleadoDto.Id }, empleadoDto);
     }
 
     [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<ActionResult<RolDto>> Put(int id, [FromBody] RolDto rolDto)
+
+    public async Task<ActionResult<EmpleadoDto>> Put(int id, [FromBody] EmpleadoDto empleadoDto)
     {
-        if (rolDto == null)
+        if (empleadoDto == null)
         {
             return NotFound();
         }
-        var data = mapper.Map<Rol>(rolDto);
-        unitOfWork.Roles.Update(data);
+        var data = this.mapper.Map<Empleado>(empleadoDto);
+        unitOfWork.Empleados.Update(data);
         await unitOfWork.SaveAsync();
-        return rolDto;
+        return empleadoDto;
     }
 
     [HttpDelete("{id}")]
@@ -94,12 +88,12 @@ public class RolController : BaseApiController
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Delete(int id)
     {
-        var data = await unitOfWork.Roles.GetByIdAsync(id);
+        var data = await unitOfWork.Empleados.GetByIdAsync(id);
         if (data == null)
         {
             return NotFound();
         }
-        unitOfWork.Roles.Remove(data);
+        unitOfWork.Empleados.Remove(data);
         await unitOfWork.SaveAsync();
         return NoContent();
     }

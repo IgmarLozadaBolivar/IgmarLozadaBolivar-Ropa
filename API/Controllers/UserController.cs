@@ -11,7 +11,7 @@ namespace API.Controllers;
 [ApiVersion("1.0")]
 [ApiVersion("1.1")]
 
-public class UserController : ControllerBase
+public class UserController : BaseApiController
 {
     private readonly IUserService _userservice;
     private readonly IUnitOfWork unitOfWork;
