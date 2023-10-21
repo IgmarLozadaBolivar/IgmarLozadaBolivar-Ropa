@@ -192,7 +192,7 @@ namespace Persistence.Data.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Nombre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, comment: "Nombre del usuario")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Email = table.Column<string>(type: "longtext", nullable: false, comment: "Correo del usuario")
+                    Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, comment: "Correo del usuario")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false, comment: "Contraseña del usuario")
                         .Annotation("MySql:CharSet", "utf8mb4")
@@ -368,7 +368,7 @@ namespace Persistence.Data.Migrations
                     Nombre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, comment: "Nombre del cliente")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdTipoPersonaFK = table.Column<int>(type: "int", nullable: false),
-                    FechaRegistro = table.Column<DateTime>(type: "datetime(6)", nullable: false, comment: "Fecha de registro del cliente"),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime", nullable: false, comment: "Fecha de registro del cliente"),
                     IdMunicipioFK = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -399,7 +399,7 @@ namespace Persistence.Data.Migrations
                     Nombre = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, comment: "Nombre del empleado")
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     IdCargoFK = table.Column<int>(type: "int", nullable: false),
-                    FechaIngreso = table.Column<DateTime>(type: "datetime(6)", nullable: false, comment: "Fecha de ingreso del empleado"),
+                    FechaIngreso = table.Column<DateTime>(type: "datetime", nullable: false, comment: "Fecha de ingreso del empleado"),
                     IdMunicipioFK = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -431,7 +431,7 @@ namespace Persistence.Data.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     RepresentanteLegal = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false, comment: "Representante legal de la empresa")
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime(6)", nullable: false, comment: "Fecha de creacion de la empresa"),
+                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false, comment: "Fecha de creacion de la empresa"),
                     IdMunicipioFK = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

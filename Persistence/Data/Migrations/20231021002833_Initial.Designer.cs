@@ -11,7 +11,7 @@ using Persistence;
 namespace Persistence.Data.Migrations
 {
     [DbContext(typeof(DbAppContext))]
-    [Migration("20231021000847_Initial")]
+    [Migration("20231021002833_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -54,7 +54,7 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime")
                         .HasColumnName("FechaRegistro")
                         .HasComment("Fecha de registro del cliente");
 
@@ -219,7 +219,7 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FechaIngreso")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime")
                         .HasColumnName("FechaIngreso")
                         .HasComment("Fecha de ingreso del empleado");
 
@@ -262,7 +262,7 @@ namespace Persistence.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime(6)")
+                        .HasColumnType("datetime")
                         .HasColumnName("FechaCreacion")
                         .HasComment("Fecha de creacion de la empresa");
 
@@ -787,7 +787,8 @@ namespace Persistence.Data.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasMaxLength(255)
+                        .HasColumnType("varchar")
                         .HasColumnName("Email")
                         .HasComment("Correo del usuario");
 
