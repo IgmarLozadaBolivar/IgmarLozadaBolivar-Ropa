@@ -30,11 +30,11 @@
 
 <!-- Seccion 2 -->
 ### 👻 Requerimientos funcionales 👻<br>
-🔰 Implementar restricción de peticiones haciendo uso de limitaciones de peticiones por IP. ❌ <br>
-🔰 Implementar protección a los endPoints haciendo uso de JWT y roles de usuario. ❌ <br>
-🔰 Implementar esquema de versionado de Api que facilite el proceso de implementación de nuevos endpoints sin afectar el funcionamiento de las aplicaciones externas que consumen los servicios del Api. ❌ <br>
-🔰 Se debe permitir realizar procesos de creacion, edicion, eliminacion y listado de informacion de cada una de las tablas. ❌ <br>
-🔰 Implementar endpoints que permitan realizar el proceso de CRUD en cada uno de los controladores del backend. ❌ <br>
+🔰 Implementar restricción de peticiones haciendo uso de limitaciones de peticiones por IP. ✔ <br>
+🔰 Implementar protección a los endPoints haciendo uso de JWT y roles de usuario. ✔ <br>
+🔰 Implementar esquema de versionado de Api que facilite el proceso de implementación de nuevos endpoints sin afectar el funcionamiento de las aplicaciones externas que consumen los servicios del Api. ✔ <br>
+🔰 Se debe permitir realizar procesos de creacion, edicion, eliminacion y listado de informacion de cada una de las tablas. ✔ <br>
+🔰 Implementar endpoints que permitan realizar el proceso de CRUD en cada uno de los controladores del backend. ✔ <br>
 🔰 Debido al gran volumen de información que la empresa procesa diariamente se requiere que los endpoints encargados de consultar el contenido de las tablas implementen sistema de paginación. ❌ <br>
 
 <!-- Seccion 3 -->
@@ -74,6 +74,25 @@
 - CsvHelper - v30.0.1 <br>
 - Microsoft.EntityFrameworkCore - v7.0.12 <br>
 - Pomelo.EntityFrameworkCore.Mysql - v7.0.11 <br>
+
+### Datos Curiosos
+<h4>Ingreso de Usuario</h4>
+<h5>Usuarios que podes utilizar: </h5>
+- ByBolivar - 123 (Rol = administrador)
+- Jholver - JPrado (Rol = administrador)
+- Admin - admin (Rol = administrador)
+- Empleado - empleado (Rol = empleado)
+
+<img src="./assets/CredencialesUser.png">
+
+<h4>Obtencion Token</h4>
+<img src="./assets/ObtencionToken.png">
+
+<h4>Ingreso Token en JWT (JSON WEB TOKEN)</h4>
+<img src="./assets/IngresoTokenJWT.png">
+
+<h4>Payload del JWT (JSON WEB TOKEN)</h4>
+<img src="./assets/PayloadToken.png">
 
 ### 💰 You can help me by Donating 💰
   [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=flat&logo=paypal&logoColor=white)](https://paypal.me/losadabolivar@gmail.com) 
