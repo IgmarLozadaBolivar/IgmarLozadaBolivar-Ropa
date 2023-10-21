@@ -2,6 +2,7 @@ namespace Domain.Entities;
 
 public class Empleado : BaseEntity
 {
+    public int IdEmpleado { get; set; }
     public string Nombre { get; set; }
     public int IdCargoFK { get; set; }
     public Cargo Cargo { get; set; }

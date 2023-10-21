@@ -2,7 +2,7 @@ namespace Domain.Entities;
 
 public class Cliente : BaseEntity
 {
-    public string IdCliente { get; set; }
+    public int IdCliente { get; set; }
     public string Nombre { get; set; }
     public int IdTipoPersonaFK { get; set; }
     public TipoPersona TipoPersona { get; set; }
