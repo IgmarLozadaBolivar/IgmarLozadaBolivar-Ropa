@@ -28,4 +28,25 @@ public class ClienteRepo : GenericRepo<Cliente>, ICliente
         .Include(p => p.Municipio)
         .FirstOrDefaultAsync(p => p.Id == id);
     }
+
+    public override async Task<(int totalRegistros, IEnumerable<Cliente> registros)> GetAllAsync(int pageIndez, int pageSize, string search)
+    {
+        var query = _context.Clientes as IQueryable<Cliente>;
+
+        if (!string.IsNullOrEmpty(search))
+        {
+            query = query.Where(p => p.IdCliente.ToString().ToLower().Contains(search));
+            query = query.Where(p => p.Nombre.ToString().ToLower().Contains(search));
+            query = query.Where(p => p.FechaRegistro.ToString().ToLower().Contains(search));
+        }
+
+        query = query.OrderBy(p => p.Id);
+        var totalRegistros = await query.CountAsync();
+        var registros = await query
+            .Skip((pageIndez - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (totalRegistros, registros);
+    }
 }
